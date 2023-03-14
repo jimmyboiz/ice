@@ -20,6 +20,16 @@ class DashboardController extends Controller
         return view('project-management.index');
     }
 
+    public function pmdAbout()
+    {
+        return view('project-management.about');
+    }
+
+    public function pmdDirectory()
+    {
+        return view('project-management.directory');
+    }
+
     public function index()
     {
         $contractors = DB::connection('sqlsrv2')->table('bcms_contractor')->get();

@@ -53,8 +53,8 @@
                                         <th>Path</th>
                                     </tr>
                                 </thead>
-                                @foreach ($searchContents as $searchContent)
                                     <tbody>
+                                        @foreach ($searchContents as $searchContent)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td><a href="{{ $searchContent->content_link }}" target="_blank"><img
@@ -65,9 +65,8 @@
                                                 {{-- @include('project-management.report.updateContent')</td> --}}
                                                 <td>{{$searchContent->content_path}}</td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
-                                @endforeach
-                                
                             </table>
                         </div>
                     </div>

@@ -14,8 +14,10 @@ class SystemController extends Controller
      */
     public function index()
     {
-        $systems = System::get();
-        return view('system.index', compact('systems'));
+        $totalsystems = System::get();
+        $systems = System::where('system_name','not like', 'DB%')->get();
+        $databases = System::where('system_name','like', 'DB%')->get();
+        return view('system.index', compact('systems', 'databases', 'totalsystems'));
     }
 
     /**
@@ -36,7 +38,30 @@ class SystemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'system_name',
+            'system_desc',
+            'system_category',
+            'system_type',
+            'system_hostname',
+            'system_software',
+            'system_url',
+            'system_deploy',
+            'system_publish',
+            'system_vendor',
+            'system_owner',
+            'system_admin',
+            'system_hardware',
+            'system_os',
+            'system_user',
+            'is_active',
+        ]);
+
+        $data = $request->all();
+
+        System::create($data);
+
+        return redirect()->route('system.index')->with('message','System successfully added');
     }
 
     /**
@@ -68,9 +93,35 @@ class SystemController extends Controller
      * @param  \App\Models\System  $system
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, System $system)
+    public function update(Request $request, System $system, $id)
     {
-        //
+        $request->validate([
+            'system_name' => 'required',
+            'system_desc' => 'required',
+        ]);
+
+        System::where('system_id', $id)
+        ->update([
+            'usr_update'=>$request->usr_update,
+            'system_name'=>$request->system_name,
+            'system_desc'=>$request->system_desc,
+            'system_category'=>$request->system_category,
+            'system_type'=>$request->system_type,
+            'system_hostname'=>$request->system_hostname,
+            'system_software'=>$request->system_software,
+            'system_url'=>$request->system_url,
+            'system_deploy'=>$request->system_deploy,
+            'system_publish'=>$request->system_publish,
+            'system_vendor'=>$request->system_vendor,
+            'system_owner'=>$request->system_owner,
+            'system_admin'=>$request->system_admin,
+            'system_hardware'=>$request->system_hardware,
+            'system_os'=>$request->system_vendor,
+            'system_user'=>$request->system_user,
+            'is_active'=>$request->is_active,
+        ]);
+
+        return redirect()->route('system.index')->with('message','System details has been updated');
     }
 
     /**

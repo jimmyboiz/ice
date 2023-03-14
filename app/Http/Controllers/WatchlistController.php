@@ -17,9 +17,15 @@ class Watchlistcontroller extends Controller
     {
         // $todaysDate = today()->subDays(60);
         // $contents = Content::whereDate('expiry_date', Carbon::today()->addDays(0)->toDateString())->orderBy('expiry_date')->get();
-        $contents = Content::orderBy('expiry_date')->get();
+        // $contents = Content::where('expiry_date',"<", Carbon::now()->addDays(7))->get();
+        // $contents = Content::where('expiry_date', '>=', Carbon::now()->addDays(7) )
+        //                      ->where('expiry_date', '<=', Carbon::now()->addDays(14))
+        //                      ->get();
+        $todays = Content::where('expiry_date','=', Carbon::today())->orderBy('expiry_date')->get();
+        $sevendays = Content::whereBetween('expiry_date',[Carbon::now()->addDays(0) , Carbon::now()->addDays(7)])->orderBy('expiry_date')->get();
+        $fourteendays = Content::whereBetween('expiry_date',[Carbon::now()->addDays(7) , Carbon::now()->addDays(14)])->get();
 
-        return view('project-management.watchlist', compact('contents'));
+        return view('project-management.watchlist', compact('todays','sevendays','fourteendays'));
     }
 
     /**
