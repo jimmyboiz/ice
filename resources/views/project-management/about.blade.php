@@ -3,17 +3,17 @@
 @section('content')
     <!-- Page Heading -->
     <div class="container-fluid">
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-xl-12 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
-                    <div class="card-body text-center">
-                        <h1 class="text-gray-900 font-weight-bold">ABOUT US</h1>
-                    </div>
+                    <div class="card-body text-center"> --}}
+                        <h1 class="text-gray-900 font-weight-bold">About Us</h1>
+                    {{-- </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="card">
+        <div class="card mb-4">
             <div class="row">
                 <div class="col-sm-3">
                     <div class="card text-center border border-white">
@@ -25,7 +25,8 @@
                 </div>
                 <div class="col-sm-9">
                     <div class="card-body mt-4 mb-4">
-                        <p class="card-text text-gray-800">This Google Sites is intended to provide key information regarding
+                        <p class="card-text text-gray-800">This Google Sites is intended to provide key information
+                            regarding
                             Putrajaya
                             Line that would be
                             useful for future reference by Asset, Operations & Maintenance Department (AOMD). It
@@ -48,4 +49,5 @@
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
+@endsection

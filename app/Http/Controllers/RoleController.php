@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\System;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -14,9 +15,10 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::get();
+        $roles = Role::leftjoin('systems', 'roles.system_id', 'systems.system_id')->get();
+        $systems = System::where('system_name','not like', 'DB%')->get();
 
-        return view('master-list.role.index', compact('roles'));
+        return view('master-list.role.index', compact('roles','systems'));
     }
 
     /**

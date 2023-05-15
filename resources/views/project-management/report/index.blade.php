@@ -16,12 +16,14 @@
                     <i class="fas fa-chevron-circle-left fa-sm text-white-50"></i> Back
                 </a>
             </div>
+            @if(Auth()->user()->role_id != 3)
             <div class="p-2">
                 <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="button" data-toggle="modal"
                     data-target="#demoModal">
                     <i class="fas fa-plus fa-sm"></i> New Report
                 </button>
             </div>
+            @endif
         </div>
 
         @include('project-management.report.create')
@@ -46,7 +48,9 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Title</th>
+                                        @if(Auth()->user()->role_id != 3)
                                         <th>Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
 
@@ -59,12 +63,14 @@
                                                         href="{{ route('pmd.viewreport', [$report->report_id]) }}">{{ $report->report_name }}</a>
                                                 </h6>
                                             </td>
+                                            @if(Auth()->user()->role_id != 3)
                                             <td>
                                                 <a href="{{ route('pmd.editreport', ['report_id' => $report->report_id]) }}"
                                                     class="btn btn-sm btn-light">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
                                             </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

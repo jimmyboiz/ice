@@ -37,14 +37,6 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Department Unit Name</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </tfoot>
                                 <tbody>
                                     @foreach ($dept_units as $dept_unit)
                                         <tr>

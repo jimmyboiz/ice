@@ -18,19 +18,27 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <label class="label">Role Name</label>
-                                    <input type="text" class="form-control" id="role_name" name="role_name"
-                                        required>
+                                    <input type="text" class="form-control" id="role_name" name="role_name" required>
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="label">Description</label>
-                                    <input type="text" class="form-control" id="role_desc" name="role_desc"
-                                        required>
+                                    <input type="text" class="form-control" id="role_desc" name="role_desc" required>
                                 </div>
                             </div>
-                            <br>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label class="label">System</label>
+                                    <select class="form-control" name="system_id" id="system_id">
+                                        <option selected disabled>Choose a system</option>
 
+                                        @foreach ($systems as $system)
+                                            <option value="{{ $system->system_id }}">{{ $system->system_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <input type="hidden" class="form-control" id="usr_create" name="usr_create"
-                                value="{{ Auth()->user()->name }}">
+                                value="{{ Auth()->user()->email }}">
                             <input type="hidden" class="form-control" id="is_active" name="is_active" value="Y">
 
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">

@@ -17,7 +17,7 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::first();
-        $contents = Content::where('event_id',$events->event_id)->first();
+        $contents = Content::where('event_id',1)->get();
         $projects = Project::get();
 
         return view('project-management.event.index', compact('events', 'contents', 'projects'));   

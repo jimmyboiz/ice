@@ -56,12 +56,14 @@
                                         width="50" height="30">{{ $contents->content_name }}
                                 </a>
                             </h6>
+                            @if(Auth()->user()->role_id != 3)
                             <div class="dropdown no-arrow">
                                 <button data-toggle="modal" data-target="#updateContent{{ $contents->content_id }}"
                                     class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-pen fa-sm text-white-50"></i>
                                 </button>
                                 @include('project-management.agreement.updateContent')
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Title;
+use App\Models\MisTitle;
 use Illuminate\Http\Request;
 
 class TitleController extends Controller
@@ -14,7 +14,7 @@ class TitleController extends Controller
      */
     public function index()
     {
-        $titles = Title::get();
+        $titles = MisTitle::get();
 
         return view('master-list.title.index', compact('titles'));
     }
@@ -37,20 +37,28 @@ class TitleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        if (MisTitle::where('title_desc', $request->title_desc)->exists()) {
 
-        Title::create($data);
+            return redirect()->back()->with('error', 'Title already existed.');
 
-        return redirect()->back()->with('message','Title has been created successfully.');
+        } else {
+
+            $data = $request->all();
+
+            MisTitle::create($data);
+
+            return redirect()->back()->with('message', 'Title has been created successfully.');
+
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Title  $title
+     * @param  \App\Models\MisTitle  $title
      * @return \Illuminate\Http\Response
      */
-    public function show(Title $title)
+    public function show(MisTitle $title)
     {
         //
     }
@@ -58,10 +66,10 @@ class TitleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Title  $title
+     * @param  \App\Models\MisTitle  $title
      * @return \Illuminate\Http\Response
      */
-    public function edit(Title $title)
+    public function edit(MisTitle $title)
     {
         //
     }
@@ -70,28 +78,28 @@ class TitleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Title  $title
+     * @param  \App\Models\MisTitle  $title
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Title $title, $title_id)
+    public function update(Request $request, MisTitle $title, $title_id)
     {
-        Title::where('title_id', $title_id)
-                ->update([
-                    'title_desc'=>$request->title_desc,
-                    'usr_update'=>$request->usr_update,
-                    'is_active'=>$request->is_active
-                ]);
-        
+        MisTitle::where('title_id', $title_id)
+            ->update([
+                'title_desc' => $request->title_desc,
+                'usr_update' => $request->usr_update,
+                'is_active' => $request->is_active
+            ]);
+
         return redirect()->back()->with('message', 'Title has been succesfully updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Title  $title
+     * @param  \App\Models\MisTitle  $title
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Title $title)
+    public function destroy(MisTitle $title)
     {
         //
     }

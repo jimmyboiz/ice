@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
+
     <!-- Page Heading -->
     <div class="container-fluid">
         <div class="row">

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Department;
+use App\Models\MisDepartment;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -14,7 +14,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = Department::get();
+        $departments = MisDepartment::get();
 
         return view('master-list.department.index', compact('departments'));
     }
@@ -39,7 +39,7 @@ class DepartmentController extends Controller
     {
         $data = $request->all();
 
-        Department::create($data);
+        MisDepartment::create($data);
 
         return redirect()->back()->with('message','Department has been created successfully.');
     }
@@ -47,10 +47,10 @@ class DepartmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\MisDepartment  $department
      * @return \Illuminate\Http\Response
      */
-    public function show(Department $department)
+    public function show(MisDepartment $department)
     {
         //
     }
@@ -58,10 +58,10 @@ class DepartmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\MisDepartment  $department
      * @return \Illuminate\Http\Response
      */
-    public function edit(Department $department)
+    public function edit(MisDepartment $department)
     {
         //
     }
@@ -70,12 +70,12 @@ class DepartmentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\MisDepartment  $department
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Department $department, $dept_id)
+    public function update(Request $request, MisDepartment $department, $dept_id)
     {
-        Department::where('dept_id', $dept_id)
+        MisDepartment::where('dept_id', $dept_id)
                 ->update([
                     'dept_name'=>$request->dept_name,
                     'dept_code'=>$request->dept_code,
@@ -89,10 +89,10 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Department  $department
+     * @param  \App\Models\MisDepartment  $department
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Department $department)
+    public function destroy(MisDepartment $department)
     {
         //
     }

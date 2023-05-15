@@ -17,10 +17,12 @@
                 </a>
             </div>
             <div class="p-2">
+                @if (Auth()->user()->role_id != 3)
                 <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="button" data-toggle="modal"
                     data-target="#addEnvironmental">
                     <i class="fas fa-plus fa-sm"></i> New Environmental
                 </button>
+                @endif
             </div>
         </div>
 
@@ -46,7 +48,9 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Title</th>
+                                        @if (Auth()->user()->role_id != 3)
                                         <th>Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
 
@@ -59,12 +63,14 @@
                                                         href="{{ route('pmd.viewEnvironmental', [$environmental->environment_id]) }}">{{ $environmental->environment_name }}</a>
                                                 </h6>
                                             </td>
+                                            @if (Auth()->user()->role_id != 3)
                                             <td>
                                                 <a href="{{ route('pmd.editEnvironmental', ['environment_id' => $environmental->environment_id]) }}"
                                                     class="btn btn-sm btn-light">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
                                             </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

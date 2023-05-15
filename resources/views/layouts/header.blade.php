@@ -9,7 +9,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>UIMS System</title>
+    <title>❄ MyMIS</title>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('template/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -25,9 +27,11 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-    {{-- <!-- Custom Popup Modal -->
+    {{--
+    <!-- Custom Popup Modal -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> --}}
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    --}}
 
 </head>
 
@@ -40,143 +44,259 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboard') }}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('homepage') }}">
                 <div class="sidebar-brand-icon">
                     <img src="{{ asset('template/img/mrt_logo.png') }}" width="100">
                 </div>
-                <div class="sidebar-brand-text mx-3">UIMS<sup>1.0</sup></div>
+                {{-- <div class="sidebar-brand-text mx-3">PYLINE INFO<sup>1.0</sup></div> --}}
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/dashboard') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                <a class="nav-link" href="{{ route('homepage') }}">
+                    <i class="bi-snow" aria-hidden="true"></i>
+                    <span>MyMIS</span>
+                </a>
+                <a class="nav-link" href="" data-toggle="modal" data-target="#contctModal">
+                    <i class="fas fa-phone-alt fa-sm fa-fw" aria-hidden="true"></i>
+                    <span>Contact Us</span>
+                </a>
+                @foreach ($cores as $core)
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                        data-target="#collapseSystem{{ $core->system_id }}" aria-expanded="true"
+                        aria-controls="collapseSystem{{ $core->system_id }}">
+                        <i class="bi-journal-bookmark-fill"></i>
+                        <span>{{ $core->system_name }}</span>
+                    </a>
+                    @if ($core->system_id == $mis->system_id)
+                        <div id="collapseSystem{{ $core->system_id }}" class="collapse" aria-labelledby="headingTwo"
+                            data-parent="#collapseSystem{{ $core->system_id }}">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <!-- Nav Item - Dashboard -->
+                                <a class="collapse-item" href="{{ route('dashboard') }}">
+                                    {{-- <i class="fas fa-fw fa-tachometer-alt"></i> --}}
+                                    <span>Dashboard</span>
+                                </a>
+                                <a class="collapse-item collapsed" href="{{ url('/employee') }}" data-toggle="collapse"
+                                    data-target="#employee" aria-expanded="true" aria-controls="collapseTwo">
+                                    {{-- <i class="bi-people"></i> --}}
+                                    <span>Employee</span>
+                                </a>
+                                <div id="employee" class="collapse" aria-labelledby="headingTwo"
+                                    data-parent="#accordionSidebar">
+                                    {{-- <div class="bg-white py-2 collapse-inner rounded"> --}}
+                                    {{-- <h6 class="collapse-header">Components:</h6> --}}
+                                    {{-- <a class="collapse-item" href="{{ url('/employee') }}">Dashboard</a> --}}
+                                    <a class="collapse-item" href="{{ route('employee.index') }}">Dashboard</a>
+                                    {{-- <a class="collapse-item" href="">E-Custodian</a> --}}
+                                    {{-- </div> --}}
+                                </div>
+                                <a class="collapse-item collapsed" href="#" data-toggle="collapse"
+                                    data-target="#collapseMasterList" aria-expanded="true" aria-controls="collapseTwo">
+                                    {{-- <i class="fas fa-clipboard-list"></i> --}}
+                                    <span>Master List</span>
+                                </a>
+                                <div id="collapseMasterList" class="collapse" aria-labelledby="headingTwo"
+                                    data-parent="#accordionSidebar">
+                                    <div class="bg-white py-2 collapse-inner rounded">
+                                        {{-- <h6 class="collapse-header">Components:</h6> --}}
+                                        <a class="collapse-item" href="{{ route('company.index') }}">Company</a>
+                                        <a class="collapse-item" href="{{ route('department.index') }}">Department</a>
+                                        <a class="collapse-item" href="{{ route('deptUnit.index') }}">Department
+                                            Unit</a>
+                                        <a class="collapse-item"
+                                            href="{{ route('designation.index') }}">Designation</a>
+                                        <a class="collapse-item" href="{{ route('division.index') }}">Division</a>
+                                        <a class="collapse-item" href="{{ route('grade.index') }}">Grade</a>
+                                        <a class="collapse-item" href="{{ route('line.index') }}">Line</a>
+                                        <a class="collapse-item" href="{{ route('location.index') }}">Location</a>
+                                        <a class="collapse-item" href="{{ route('project.index') }}">Project</a>
+                                        <a class="collapse-item" href="{{ route('role.index') }}">Role</a>
+                                        <a class="collapse-item" href="{{ route('title.index') }}">Title</a>
+                                    </div>
+                                </div>
+
+                                <a class="collapse-item collapsed" href="#" data-toggle="collapse"
+                                    data-target="#collapseUtilities" aria-expanded="true"
+                                    aria-controls="collapseUtilities">
+                                    {{-- <i class="fas fa-fw fa-wrench"></i> --}}
+                                    <span>System Access</span>
+                                </a>
+                                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                                    data-parent="#accordionSidebar">
+                                    <div class="bg-white py-2 collapse-inner rounded">
+                                        {{-- <h6 class="collapse-header">Utilities:</h6> --}}
+                                        <a class="collapse-item" href="{{ route('access.showSystem') }}">Access</a>
+                                        <a class="collapse-item" href="{{ route('system.index') }}">Dashboard</a>
+                                        <a class="collapse-item" href="{{ route('access.list') }}">List of
+                                            Accesses</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
             </li>
 
-            @if(Auth()->user()->role_id == 1)
-
-            <!-- Divider -->
+            {{-- <!-- Divider -->
             <hr class="sidebar-divider">
 
             <!-- Heading -->
             <div class="sidebar-heading">
                 Centralize
+            </div> --}}
+
+            <!-- Nav Item - Pages Collapse Menu -->
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Sub-system
+            </div>
+
+            <li class="nav-item">
+                @foreach ($accesses->sortBy('system_name') as $access)
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                        data-target="#collapseSystem{{ $access->system_id }}" aria-expanded="true"
+                        aria-controls="collapseSystem{{ $access->system_id }}">
+                        <i class="bi-train-lightrail-front"></i>
+                        <span>{{ $access->system_name }}</span>
+                    </a>
+                    @if ($access->system_id == $pyline->system_id)
+                        <div id="collapseSystem{{ $access->system_id }}" class="collapse"
+                            aria-labelledby="headingTwo" data-parent="#collapseSystem{{ $access->system_id }}">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                {{-- <h6 class="collapse-header">Components:</h6> --}}
+                                <a class="collapse-item" href="{{ route('pmd.pyline') }}">Home</a>
+                                <a class="collapse-item" href="{{ route('pmd.search') }}">Search</a>
+                                <a class="collapse-item" href="{{ route('pmd.about') }}">About Us</a>
+                                <a class="collapse-item" href="{{ route('pmd.directory') }}">Directory</a>
+                                <a class="collapse-item" href="{{ route('pmd.watchlist') }}">Watch List</a>
+                                <a class="collapse-item" href="{{ route('pmd.masterlistDrawing') }}">Master List
+                                    Drawings</a>
+
+                                @if (!empty($adminPY))
+                                    <a class="collapse-item" href="{{ route('pmd.userAccess') }}">List of
+                                        Accesses</a>
+                                @endif
+
+                                <a class="collapse-item dropdown-toggle" href="#" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Rail</a>
+                                <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{{ route('pmd.report') }}">Reports</a>
+                                    <a class="dropdown-item" href="{{ route('pmd.drawing') }}">Drawings</a>
+                                    <a class="dropdown-item" href="{{ route('pmd.cert') }}">Certificate</a>
+                                    <a class="dropdown-item" href="{{ route('pmd.agreement') }}">Mutual
+                                        Agreements</a>
+                                    <a class="dropdown-item" href="{{ route('pmd.event') }}">Significant
+                                        Events</a>
+                                    <a class="dropdown-item" href="{{ route('pmd.cops') }}">Carry-over Project
+                                        Scope</a>
+                                    <a class="dropdown-item" href="{{ route('pmd.software') }}">Software</a>
+                                    <a class="dropdown-item"
+                                        href="{{ route('pmd.environmental') }}">Environmental</a>
+                                    <a class="dropdown-item" href="{{ route('pmd.other') }}">Other Records</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($access->system_id == $bcms->system_id)
+                        <div id="collapseSystem{{ $access->system_id }}" class="collapse"
+                            aria-labelledby="headingTwo" data-parent="#collapseSystem{{ $access->system_id }}">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="{{ $access->system_url }}"target="_blank"">Login</a>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($access->system_id == $rms->system_id)
+                        <div id="collapseSystem{{ $access->system_id }}" class="collapse"
+                            aria-labelledby="headingTwo" data-parent="#collapseSystem{{ $access->system_id }}">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="{{ route('rms.corpIndex') }}">Corporate</a>
+                                <a class="collapse-item" href="">Project</a>
+                                <div class="wrapper">
+                                    <a class="collapse-item dropdown-toggle" href="#"
+                                        data-target="dropdownMasterButton" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">Master Item</a>
+                                    <div class="dropdown-menu animated--fade-in" id="dropdownMasterButton"
+                                        aria-labelledby="dropdownMasterButton">
+                                        <a class="dropdown-item" href="{{ route('rms.ctrlMonitor') }}">Control
+                                            Monitoring</a>
+                                        <a class="dropdown-item" href="{{ route('rms.impact') }}">Impact</a>
+                                        <a class="dropdown-item" href="{{ route('rms.likelihood') }}">Likelihood</a>
+                                        <a class="dropdown-item" href="{{ route('rms.rating') }}">Rating</a>
+                                        <a class="dropdown-item" href="{{ route('rms.risk-stat') }}">Risk Status</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </li>
+
+
+            {{--
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Adds on
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('employee.index') }}" data-toggle="collapse"
-                    data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Employee</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Pages</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Components:</h6>
-                        <a class="collapse-item" href="{{ route('employee.index') }}">Dashboard</a>
+                        <h6 class="collapse-header">Login Screens:</h6>
+                        <a class="collapse-item" href="login.html">Login</a>
+                        <a class="collapse-item" href="register.html">Register</a>
+                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                        <div class="collapse-divider"></div>
+                        <h6 class="collapse-header">Other Pages:</h6>
+                        <a class="collapse-item" href="404.html">404 Page</a>
+                        <a class="collapse-item" href="blank.html">Blank Page</a>
                     </div>
                 </div>
             </li>
 
+            <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMasterList"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-clipboard-list"></i>
-                    <span>Master List</span>
-                </a>
-                <div id="collapseMasterList" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Components:</h6>
-                        <a class="collapse-item" href="{{ route ('company.index') }}">Company</a>
-                        <a class="collapse-item" href="{{ route('department.index') }}">Department</a>
-                        <a class="collapse-item" href="{{ route('deptUnit.index') }}">Department Unit</a>
-                        <a class="collapse-item" href="{{ route('designation.index') }}">Designation</a>
-                        <a class="collapse-item" href="{{ route('division.index') }}">Division</a>
-                        <a class="collapse-item" href="{{ route('grade.index') }}">Grade</a>
-                        <a class="collapse-item" href="{{ route('location.index') }}">Location</a>
-                        <a class="collapse-item" href="{{ route('project.index') }}">Project</a>
-                        <a class="collapse-item" href="{{ route('role.index') }}">Role</a>
-                        <a class="collapse-item" href="{{ route('title.index') }}">Title</a>
-                    </div>
-                </div>
+                <a class="nav-link" href="charts.html">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Charts</span></a>
             </li>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
+            <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>System Access</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Utilities:</h6>
-                        <a class="collapse-item" href="{{ route('system.index') }}">Dashboard</a>
-                        <a class="collapse-item" href="{{ route('access.create') }}">Access</a>
-                    </div>
-                </div>
-            </li>
-
-            
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Sub-system
-            </div>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ url('/employee') }}" data-toggle="collapse"
-                    data-target="#collapseThree" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>PMD</span>
-                </a>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#collapseThree">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Components:</h6>
-                        <a class="collapse-item" href="{{ route('pmd.pyline') }}">Putrajaya Line Info</a>
-                        <a class="collapse-item" href="{{ route('pmd.search') }}">Search</a>
-                        <a class="collapse-item" href="{{ route('pmd.about') }}">About Us</a>
-                        <a class="collapse-item" href="{{ route('pmd.directory') }}">Directory</a>
-                        <a class="collapse-item" href="{{ route('pmd.watchlist') }}">Watch List</a>
-                    </div>
-                </div>
-            </li>
-
-            @else
+                <a class="nav-link" href="tables.html">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Tables</span></a>
+            </li> --}}
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Sub-system
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ url('/employee') }}" data-toggle="collapse"
-                    data-target="#collapseThree" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Putrajaya Line Info</span>
-                </a>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#collapseThree">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        {{-- <h6 class="collapse-header">Components:</h6> --}}
-                        <a class="collapse-item" href="{{ route('pmd.pyline') }}">Home</a>
-                        <a class="collapse-item" href="{{ route('pmd.search') }}">Search</a>
-                        <a class="collapse-item" href="{{ route('pmd.about') }}">About Us</a>
-                        <a class="collapse-item" href="{{ route('pmd.directory') }}">Directory</a>
-                    </div>
-                </div>
-            </li>
-
-            @endif
+            <!-- Sidebar Message -->
+            <!-- <div class="sidebar-card d-none d-lg-flex">
+                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
+                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
+                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
+            </div> -->
 
         </ul>
         <!-- End of Sidebar -->
@@ -186,15 +306,122 @@
             <!-- Main Content -->
             <div id="content">
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-5 mstatic-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
 
+                    {{--
+                    <!-- Topbar Search -->
+                    <form
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form> --}}
+
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+
+
+                        {{-- <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li> --}}
+
+                        @include('layouts.notification')
+
+                        {{-- <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">7</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
+                                            problem I've been having.</div>
+                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">I have the photos that you ordered last month, how
+                                            would you like them sent to you?</div>
+                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="...">
+                                        <div class="status-indicator bg-warning"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Last month's report looks great, I am very happy
+                                            with
+                                            the progress so far, keep up the good work!</div>
+                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
+                                            alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
+                                            told me that people say this to all dogs, even if they aren't good...</div>
+                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More
+                                    Messages</a>
+                            </div>
+                        </li> --}}
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -203,33 +430,38 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span
-                                    class="mr-2 d-none d-lg-inline text-gray-600 small">{{ strtoupper(Auth()->user()->name) }}</span>
+                                    class="mr-2 d-none d-lg-inline text-gray-900 small">{{ strtoupper(Auth()->user()->name) }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="{{ asset('template/img/undraw_profile.svg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('profile.index') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('profile.change') }}">
+                                    <i class="fas fa-unlock-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Change Password
+                                </a>
+                                {{-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
-                                </a>
+                                </a> --}}
                                 {{-- <form method="POST" action="{{ route('logout') }}">
                                     @csrf --}}
-                                    <a class="dropdown-item" href=""
-                                        data-toggle="modal" data-target="#logoutModal">
-                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Logout
-                                    </a>
-                                {{-- </form> --}}
+                                <a class="dropdown-item" href="" data-toggle="modal"
+                                    data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                                {{--
+                                </form> --}}
                             </div>
                         </li>
 

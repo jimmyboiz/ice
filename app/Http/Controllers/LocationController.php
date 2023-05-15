@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Location;
+use App\Models\MisLocation;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
@@ -14,7 +14,7 @@ class LocationController extends Controller
      */
     public function index()
     {
-        $locations = Location::get();
+        $locations = MisLocation::get();
 
         return view('master-list.location.index', compact('locations'));
     }
@@ -39,7 +39,7 @@ class LocationController extends Controller
     {
         $data = $request->all();
 
-        Location::create($data);
+        MisLocation::create($data);
 
         return redirect()->back()->with('message','Location has been created successfully.');
     }
@@ -47,10 +47,10 @@ class LocationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Location  $location
+     * @param  \App\Models\MisLocation  $location
      * @return \Illuminate\Http\Response
      */
-    public function show(Location $location)
+    public function show(MisLocation $location)
     {
         //
     }
@@ -58,10 +58,10 @@ class LocationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Location  $location
+     * @param  \App\Models\MisLocation  $location
      * @return \Illuminate\Http\Response
      */
-    public function edit(Location $location)
+    public function edit(MisLocation $location)
     {
         //
     }
@@ -70,12 +70,12 @@ class LocationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Location  $location
+     * @param  \App\Models\MisLocation  $location
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Location $location, $location_id)
+    public function update(Request $request, MisLocation $location, $location_id)
     {
-        Location::where('location_id', $location_id)
+        MisLocation::where('location_id', $location_id)
                 ->update([
                     'location_name'=>$request->location_name,
                     'location_code'=>$request->location_code,
@@ -89,10 +89,10 @@ class LocationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Location  $location
+     * @param  \App\Models\MisLocation  $location
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Location $location)
+    public function destroy(MisLocation $location)
     {
         //
     }

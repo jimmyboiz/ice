@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company; // Added by sarah.izyan
-use App\Models\Department; // Added by sarah.izyan
-use App\Models\DepartmentUnit; // Added by sarah.izyan
-use App\Models\Designation; // Added by sarah.izyan
-use App\Models\Division; // Added by sarah.izyan
-use App\Models\Employee;
-use App\Models\Grade;
-use App\Models\Title; // Added by sarah.izyan
+use App\Models\MisCompany; // Added by sarah.izyan
+use App\Models\MisDepartment; // Added by sarah.izyan
+use App\Models\MisDepartmentUnit; // Added by sarah.izyan
+use App\Models\MisDesignation; // Added by sarah.izyan
+use App\Models\MisDivision; // Added by sarah.izyan
+use App\Models\CdeEmployee;
+use App\Models\MisGrade;
+use App\Models\MisTitle; // Added by sarah.izyan
 use App\Models\User;
-use App\Models\Location; // Added by sarah.izyan
+use App\Models\MisLocation; // Added by sarah.izyan
+use App\Models\MisLine;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -23,25 +24,28 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::leftJoin('titles', 'employees.title_id', '=', 'titles.title_id')
-                            ->leftJoin('companies', 'employees.company_id', '=', 'companies.company_id')
-                            ->leftJoin('designations', 'employees.designation_id', '=', 'designations.designation_id')
-                            ->leftJoin('departments', 'employees.dept_id', '=', 'departments.dept_id')
-                            ->leftJoin('department_units', 'employees.dept_unit_id', '=', 'department_units.dept_unit_id')
-                            ->leftJoin('divisions', 'employees.division_id', '=', 'divisions.division_id')
-                            ->leftJoin('locations', 'employees.location_id', '=', 'locations.location_id')
-                            ->leftJoin('grades', 'employees.new_grade_id', '=', 'grades.grade_id')
+        $employees = CdeEmployee::leftJoin('mis_titles', 'cde_employees.title_id', '=', 'mis_titles.title_id')
+                            ->leftJoin('mis_companies', 'cde_employees.company_id', '=', 'mis_companies.company_id')
+                            ->leftJoin('mis_designations', 'cde_employees.designation_id', '=', 'mis_designations.designation_id')
+                            ->leftJoin('mis_departments', 'cde_employees.dept_id', '=', 'mis_departments.dept_id')
+                            ->leftJoin('mis_department_units', 'cde_employees.dept_unit_id', '=', 'mis_department_units.dept_unit_id')
+                            ->leftJoin('mis_divisions', 'cde_employees.division_id', '=', 'mis_divisions.division_id')
+                            ->leftJoin('mis_locations', 'cde_employees.location_id', '=', 'mis_locations.location_id')
+                            ->leftJoin('mis_grades', 'cde_employees.new_grade_id', '=', 'mis_grades.grade_id')
+                            // ->leftjoin('mis_lines', 'employees.line_id', '=', 'mis_lines.line_id')
+                            ->where('emp_stat', 'Y')
                             ->get();
 
-        $employeesCount = Employee::get();
-        $titles = Title::where('is_active', 'Y')->get();
-        $companies = Company::where('is_active', 'Y')->get();
-        $designations = Designation::where('is_active', 'Y')->get();
-        $departments = Department::where('is_active', 'Y')->get();
-        $dept_units = DepartmentUnit::where('is_active', 'Y')->get();
-        $divisions = Division::where('is_active', 'Y')->get();
-        $locations = Location::where('is_active', 'Y')->get();
-        $grades = Grade::where('is_active', 'Y')->get();
+        $employeesCount = CdeEmployee::get();
+        $titles = MisTitle::where('is_active', 'Y')->get();
+        $companies = MisCompany::where('is_active', 'Y')->get();
+        $designations = MisDesignation::where('is_active', 'Y')->get();
+        $departments = MisDepartment::where('is_active', 'Y')->get();
+        $dept_units = MisDepartmentUnit::where('is_active', 'Y')->get();
+        $divisions = MisDivision::where('is_active', 'Y')->get();
+        $locations = MisLocation::where('is_active', 'Y')->get();
+        $grades = MisGrade::where('is_active', 'Y')->get();
+        $lines = MisLine::where('is_active', 'Y')->get();
 
         return view('employee.index', compact(
             'employees',
@@ -75,7 +79,7 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        Employee::create([
+        CdeEmployee::create([
             'emp_id'=>$request->emp_id,
             'emp_no'=>$request->abbr.$request->emp_id,
             'title_id'=>$request->title_id,
@@ -102,10 +106,10 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Employee  $employee
+     * @param  \App\Models\CdeEmployee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function show(Employee $employee, $emp_id)
+    public function show(CdeEmployee $employee, $emp_id)
     {
         //
     }
@@ -113,10 +117,10 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Employee  $employee
+     * @param  \App\Models\CdeEmployee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employee $employee, $emp_id)
+    public function edit(CdeEmployee $employee, $emp_id)
     {
         //
     }
@@ -125,12 +129,12 @@ class EmployeeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Employee  $employee
+     * @param  \App\Models\CdeEmployee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee, $emp_id)
+    public function update(Request $request, CdeEmployee $employee, $emp_id)
     {
-        Employee::where('emp_id', $emp_id)
+        CdeEmployee::where('emp_id', $emp_id)
                 ->update([
                     'title_id'=>$request->title_id,
                     'emp_name'=>$request->emp_name,
@@ -155,10 +159,10 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Employee  $employee
+     * @param  \App\Models\CdeEmployee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
+    public function destroy(CdeEmployee $employee)
     {
         //
     }

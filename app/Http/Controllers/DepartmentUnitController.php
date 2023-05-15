@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DepartmentUnit;
+use App\Models\MisDepartmentUnit;
 use Illuminate\Http\Request;
 
 class DepartmentUnitController extends Controller
@@ -14,7 +14,7 @@ class DepartmentUnitController extends Controller
      */
     public function index()
     {
-        $dept_units = DepartmentUnit::get();
+        $dept_units = MisDepartmentUnit::get();
 
         return view('master-list.deptUnit.index', compact('dept_units'));
     }
@@ -39,7 +39,7 @@ class DepartmentUnitController extends Controller
     {
         $data = $request->all();
 
-        DepartmentUnit::create($data);
+        MisDepartmentUnit::create($data);
 
         return redirect()->back()->with('message','Department unit has been created successfully.');
     }
@@ -47,10 +47,10 @@ class DepartmentUnitController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\DepartmentUnit  $departmentUnit
+     * @param  \App\Models\MisDepartmentUnit  $departmentUnit
      * @return \Illuminate\Http\Response
      */
-    public function show(DepartmentUnit $departmentUnit)
+    public function show(MisDepartmentUnit $departmentUnit)
     {
         //
     }
@@ -58,10 +58,10 @@ class DepartmentUnitController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\DepartmentUnit  $departmentUnit
+     * @param  \App\Models\MisDepartmentUnit  $departmentUnit
      * @return \Illuminate\Http\Response
      */
-    public function edit(DepartmentUnit $departmentUnit)
+    public function edit(MisDepartmentUnit $departmentUnit)
     {
         //
     }
@@ -70,12 +70,12 @@ class DepartmentUnitController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\DepartmentUnit  $departmentUnit
+     * @param  \App\Models\MisDepartmentUnit  $departmentUnit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DepartmentUnit $departmentUnit, $dept_unit_id)
+    public function update(Request $request, MisDepartmentUnit $departmentUnit, $dept_unit_id)
     {
-        DepartmentUnit::where('dept_unit_id', $dept_unit_id)
+        MisDepartmentUnit::where('dept_unit_id', $dept_unit_id)
                 ->update([
                     'dept_unit_name'=>$request->dept_unit_name,
                     'usr_update'=>$request->usr_update,
@@ -88,10 +88,10 @@ class DepartmentUnitController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\DepartmentUnit  $departmentUnit
+     * @param  \App\Models\MisDepartmentUnit  $departmentUnit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DepartmentUnit $departmentUnit)
+    public function destroy(MisDepartmentUnit $departmentUnit)
     {
         //
     }

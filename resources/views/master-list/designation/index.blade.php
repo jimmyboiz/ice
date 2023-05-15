@@ -3,10 +3,14 @@
 @section('content')
     <div class="container-fluid">
         @if (Session::has('message'))
-            <div class="alert alert-success">
-                {{ Session::get('message') }}
-            </div>
-        @endif
+                <div class="alert alert-success">
+                    {{ Session::get('message') }}
+                </div>
+            @elseif(Session::has('error'))
+                <div class="alert alert-danger">
+                    {{ Session::get('error') }}
+                </div>
+            @endif
 
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Designation</h1>
@@ -37,14 +41,6 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Designation Name</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </tfoot>
                                 <tbody>
                                     @foreach ($designations as $designation)
                                         <tr>

@@ -53,7 +53,7 @@
                             </div>
 
                             <input type="hidden" class="form-control" id="usr_update" name="usr_update"
-                                value="{{ Auth()->user()->name }}">
+                                value="{{ Auth()->user()->email }}">
 
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                 <div class="mb-6"></div>

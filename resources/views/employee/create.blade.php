@@ -90,7 +90,7 @@
                                     <select class="form-control" id="designation_id" name="designation_id" required>
                                         <option value="" selected disabled>Choose one</option>
 
-                                        @foreach ($designations as $designation)
+                                        @foreach ($designations->sortBy('designation_name') as $designation)
                                             <option value="{{ $designation->designation_id }}">
                                                 {{ $designation->designation_name }}
                                             </option>

@@ -1,0 +1,74 @@
+@extends('layouts.master')
+
+@section('content')
+    <div class="container-fluid">
+        @if (Session::has('message'))
+            <div class="alert alert-success">
+                {{ Session::get('message') }}
+            </div>
+        @endif
+
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Impact</h1>
+
+            <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="button" data-toggle="modal"
+                data-target="#addImpactModal">
+                <i class="fas fa-plus fa-sm text-white-50"></i> New Impact
+            </button>
+
+            @include('rms.impact.create')
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12 ">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">List of Impacts</h6>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Impact</th>
+                                        <th>Value</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($impacts as $impact)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $impact->impact_name }}</td>
+                                            <td>{{ $impact->impact_value }}</td>
+                                            <td>
+                                                @if ($impact->is_active === 'Y')
+                                                    <div style="color: #13ec13">Active</div>
+                                                @endif
+                                                @if ($impact->is_active === 'N')
+                                                    <div style="color: #ff0000">Inactive</div>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <button data-toggle="modal"
+                                                    data-target="#editImpactModal{{ $impact->impact_id }}"
+                                                    class="d-none d-sm-inline-block btn btn-sm btn-light shadow-sm">
+                                                    <i class="fas fa-pen fa-sm"></i>
+                                                </button>
+
+                                                @include('rms.impact.edit')
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection

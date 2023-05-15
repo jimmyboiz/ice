@@ -10861,19 +10861,19 @@ a:focus {
 }
 
 .bg-login-image {
-  background: url("https://source.unsplash.com/K4mSJ7kc0As/600x800");
+  background: url("https://upload.wikimedia.org/wikipedia/commons/0/03/MRT_SBK_Semantan_station2.jpg");
   background-position: center;
   background-size: cover;
 }
 
 .bg-register-image {
-  background: url("https://source.unsplash.com/Mv9hjnEUHR4/600x800");
+  background: url("https://angel-prod-public-content.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/sites/2/2022/09/MRT-Putrajaya-Line-Malaysia-scaled.jpg");
   background-position: center;
   background-size: cover;
 }
 
 .bg-password-image {
-  background: url("https://source.unsplash.com/oWTW-jNGl9I/600x800");
+  background: url("https://www.railjournal.com/wp-content/uploads/2022/08/Putrajaya-Line.jpg");
   background-position: center;
   background-size: cover;
 }
@@ -11279,3 +11279,5 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+

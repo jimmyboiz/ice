@@ -103,7 +103,7 @@
                                 </div>
                             </div>
                             <input type="hidden" class="form-control" id="usr_update" name="usr_update"
-                                value="{{ Auth()->user()->name }}">
+                                value="{{ Auth()->user()->email }}">
                     </div>
                 </div>
             </div>

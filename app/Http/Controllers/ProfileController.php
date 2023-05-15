@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use App\Models\Access;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,6 +13,15 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    public function index()
+    {
+        $roles = Role::get();
+        $accesses = Access::leftjoin('systems', 'systems.system_id','=', 'accesses.system_id')
+                            ->leftjoin('roles', 'roles.role_id','=', 'accesses.role_id')
+                            ->where('accesses.emp_id', Auth()->user()->emp_id)
+                            ->get();
+        return view('profile.index', compact('roles', 'accesses'));
+    }
     /**
      * Display the user's profile form.
      */
@@ -56,5 +67,10 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function change()
+    {
+        return view('profile.update-password');
     }
 }

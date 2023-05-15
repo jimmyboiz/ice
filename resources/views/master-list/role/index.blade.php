@@ -34,6 +34,7 @@
                                         <th>ID</th>
                                         <th>Role Name</th>
                                         <th>Description</th>
+                                        <th>System</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -44,6 +45,7 @@
                                             <td>{{ $role->role_id }}</td>
                                             <td>{{ $role->role_name }}</td>
                                             <td>{{ $role->role_desc }}</td>
+                                            <td>{{ $role->system_name}}</td>
                                             <td>
                                                 @if ($role->is_active === 'Y')
                                                     <div style="color: #13ec13">Active</div>

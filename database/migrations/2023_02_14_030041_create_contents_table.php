@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('usr_update')->nullable();
             $table->string('content_name')->nullable();
             $table->string('content_link')->nullable();
+            $table->string('content_category')->nullable();
+            $table->string('content_path')->nullable();
             $table->integer('report_id')->nullable();
             $table->integer('drawing_id')->nullable();
             $table->integer('cert_id')->nullable();

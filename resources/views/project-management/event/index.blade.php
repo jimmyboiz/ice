@@ -37,6 +37,14 @@
                 {{ Session::get('message') }}
             </div>
         @endif
+        @if(Auth()->user()->role_id != 3)
+        <div class="d-flex justify-content-end mb-4">
+            <button class="btn btn-primary" style="width: auto;" data-toggle="modal" data-target="#addContentModal">
+                <i class="fas fa-plus fa-sm text-white-50"></i> Add Document
+            </button>
+            @include('project-management.event.addContent')
+        </div>
+        @endif
 
         <div class="card shadow mb-4">
             <div class="card-body">
@@ -48,22 +56,26 @@
                 </div>
                 @include('project-management.agreement.addContent') --}}
                 <div class="row">
+                    @foreach($contents as $content)
                     <div class="col-lg-6">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">
-                                <a href="{{ $contents->content_link }}" target="_blank">
+                                <a href="{{ $content->content_link }}" target="_blank">
                                     <img src="https://cdn-icons-png.flaticon.com/512/2258/2258853.png" class="img-fluid"
-                                        width="50" height="30">{{ $contents->content_name }}
+                                        width="50" height="30">{{ $content->content_name }}
                                 </a>
                             </h6>
+                            @if(Auth()->user()->role_id != 3)
                             <div class="dropdown no-arrow">
-                                <button data-toggle="modal" data-target="#updateContent{{ $contents->content_id }}"
+                                <button data-toggle="modal" data-target="#updateContent{{ $content->content_id }}"
                                     class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-pen fa-sm text-white-50"></i>
                                 </button>
                                 @include('project-management.event.updateContent')
                             </div>
+                            @endif
                         </div>
                     </div>
+                    @endforeach
                 </div>
             </div>
         </div>

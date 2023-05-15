@@ -19,11 +19,21 @@ use App\Http\Controllers\EnvironmentalController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LineController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\OtherRecordController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\PyMasterlistPackageController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RmsCtrlMonitoringController;
+use App\Http\Controllers\RmsImpactController;
+use App\Http\Controllers\RmsLikelihoodController;
+use App\Http\Controllers\RmsRatingController;
+use App\Http\Controllers\RmsRiskController;
+use App\Http\Controllers\RmsRiskStatController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SubGroupController;
@@ -33,6 +43,8 @@ use App\Http\Controllers\SystemController;
 use App\Http\Controllers\TitleController;
 use App\Http\Controllers\WatchlistController;
 
+use App\Mail\WatchlistMail;
+use Illuuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 // use Illuminate\Support\Facades\Redirect;
@@ -54,13 +66,26 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
+Route::get('/create-account', [DashboardController::class, 'createInstruct'])->name('create.instruction');
+
+Route::get('/homepage', [DashboardController::class, 'homepage'])->middleware(['auth', 'verified'])->name('homepage');
+
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/profile-index', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile-update', [ProfileController::class, 'change'])->name('profile.change');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+//Email Notification
+Route::get('/email-notification', function () {
+    \Illuminate\Support\Facades\Mail::to('anything@email.caion')->send(new WatchlistMail());
+});
+
+Route::get('/send-mail', [MailController::class, 'sendMail']);
 
 Route::middleware('auth')->group(function () {
     // System Module Route
@@ -69,8 +94,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/system-create', [SystemController::class, 'store'])->name('system.store');
 
     // System Access Module Route
-    Route::get('/system-access', [AccessController::class, 'create'])->name('access.create');
+    // System Access Module Route
+    Route::get('/system-access/list', [AccessController::class, 'index'])->name('access.list');
+    Route::get('/system-access/systems', [AccessController::class, 'showSystem'])->name('access.showSystem');
+    Route::post('/system-access/create', [AccessController::class, 'create'])->name('access.create');
     Route::post('/system-access/store', [AccessController::class, 'store'])->name('access.store');
+    Route::post('/system-access/update/{access_id}', [AccessController::class, 'updateAccess'])->name('access.update');
+
+    Route::get('/project-management/users-access', [AccessController::class, 'pyAccess'])->name('pmd.userAccess');
 
     // Employee Module Route
     Route::get('/employee', [EmployeeController::class, 'index'])->name('employee.index');
@@ -126,6 +157,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/title', [TitleController::class, 'index'])->name('title.index');
     Route::post('/title/store', [TitleController::class, 'store'])->name('title.store');
     Route::post('/title/update/{title_id}', [TitleController::class, 'update'])->name('title.update');
+
+    //Line Module Route
+    Route::get('/line', [LineController::class, 'index'])->name('line.index');
+    Route::post('/line/store', [LineController::class, 'store'])->name('line.store');
+    Route::post('/line/update/{line_id}', [LineController::class, 'update'])->name('line.update');
 });
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -142,6 +178,12 @@ Route::middleware('auth')->group(function () {
     //PMD Watchlist
     Route::get('/project-management/watchlist', [WatchlistController::class, 'index'])->name('pmd.watchlist');
 
+    //PMD Masterlist Drawing
+    Route::get('/project-manaagement/masterlist-drawing', [PyMasterlistPackageController::class, 'search'])->name('pmd.masterlistDrawing');
+    Route::get('/project-manaagement/masterlist-drawing/create', [PyMasterlistPackageController::class, 'create'])->name('pmd.masterlistDrawing.create');
+    Route::get('/project-manaagement/masterlist-drawing/{masterlist_package_id}', [PyMasterlistPackageController::class, 'getMasterPackage'])->name('pmd.masterlistDrawing.api');
+    Route::get('/project-manaagement/masterlist-drawing/show/{drawing_detail_id}', [PyMasterlistPackageController::class, 'show'])->name('pmd.masterlistDrawing.show');
+    Route::post('/project-manaagement/masterlist-drawing/update/{drawing_detail_id}', [PyMasterlistPackageController::class, 'update'])->name('pmd.masterlistDrawing.update');
 
     //Content Centrallize
     Route::post('/project-management/update-content/{content_id}', [ContentController::class, 'update'])->name('pmd.content.update');
@@ -226,6 +268,45 @@ Route::middleware('auth')->group(function () {
 
     // Route::post('/project-management/add-other-content', [ContentController::class, 'store'])->name('pmd.storeOtherContent'); // non-grouped content
 // Route::post('/project-management/edit-other-content/{content_id}', [ContentController::class, 'update'])->name('pmd.updateOtherContent'); // non-grouped content
+
+    //Item Module Centrallize
+    Route::post('/project-management/update-item/{item_id}', [ItemController::class, 'update'])->name('pmd.item.update');
+    Route::post('/project-management/create-item', [ItemController::class, 'store'])->name('pmd.item.create');
+});
+
+Route::middleware('auth')->group(function () {
+    // RMS
+
+    //OPERATIONAL RISK
+    Route::get('/rms/corporate', [DashboardController::class, 'rmsCorpIndex'])->name('rms.corpIndex');
+    Route::get('/rms/corporate/operational', [DashboardController::class, 'rmsOpIndex'])->name('rms.opIndex');
+
+
+    //MASTER LIST RMS
+    //Risk Status Routes
+    Route::get('/rms/risk-stat', [RmsRiskStatController::class, 'index'])->name('rms.risk-stat');
+    Route::post('/rms/create-risk-stat', [RmsRiskStatController::class, 'store'])->name('rms.storeRisk-stat');
+    Route::post('/rms/update-risk-stat/{risk_stat_id}', [RmsRiskStatController::class, 'update'])->name('rms.updateRisk-stat');
+
+    //Impact Routes
+    Route::get('/rms/impact', [RmsImpactController::class, 'index'])->name('rms.impact');
+    Route::post('/rms/create-impact', [RmsImpactController::class, 'store'])->name('rms.storeImpact');
+    Route::post('/rms/update-impact/{impact_id}', [RmsImpactController::class, 'update'])->name('rms.updateImpact');
+
+    //Rating Routes
+    Route::get('/rms/rating', [RmsRatingController::class, 'index'])->name('rms.rating');
+    Route::post('/rms/create-rating', [RmsRatingController::class, 'store'])->name('rms.storeRating');
+    Route::post('/rms/update-rating/{rating_id}', [RmsRatingController::class, 'update'])->name('rms.updateRating');
+
+    //Likelihood Routes
+    Route::get('/rms/likelihood', [RmsLikelihoodController::class, 'index'])->name('rms.likelihood');
+    Route::post('/rms/create-likelihood', [RmsLikelihoodController::class, 'store'])->name('rms.storeLikelihood');
+    Route::post('/rms/update-likelihood/{likelihood_id}', [RmsLikelihoodController::class, 'update'])->name('rms.updateLikelihood');
+
+    //Control Monitoring Routes
+    Route::get('/rms/ctrl-monitor', [RmsCtrlMonitoringController::class, 'index'])->name('rms.ctrlMonitor');
+    Route::post('/rms/create-ctrl-monitor', [RmsCtrlMonitoringController::class, 'store'])->name('rms.storeCtrlMonitor');
+    Route::post('/rms/update-ctrl-monitor/{ctrl_monitor_id}', [RmsCtrlMonitoringController::class, 'update'])->name('rms.updateCtrlMonitor');
 });
 
 require __DIR__ . '/auth.php';

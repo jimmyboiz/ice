@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Grade;
+use App\Models\MisGrade;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
@@ -14,7 +14,7 @@ class GradeController extends Controller
      */
     public function index()
     {
-        $grades = Grade::get();
+        $grades = MisGrade::get();
 
         return view('master-list.grade.index', compact('grades'));
     }
@@ -39,7 +39,7 @@ class GradeController extends Controller
     {
         $data = $request->all();
 
-        Grade::create($data);
+        MisGrade::create($data);
 
         return redirect()->back()->with('message','Grade has been created successfully.');
     }
@@ -47,10 +47,10 @@ class GradeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Grade  $grade
+     * @param  \App\Models\MisGrade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function show(Grade $grade)
+    public function show(MisGrade $grade)
     {
         //
     }
@@ -58,10 +58,10 @@ class GradeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Grade  $grade
+     * @param  \App\Models\MisGrade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function edit(Grade $grade)
+    public function edit(MisGrade $grade)
     {
         //
     }
@@ -70,12 +70,12 @@ class GradeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Grade  $grade
+     * @param  \App\Models\MisGrade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Grade $grade, $grade_id)
+    public function update(Request $request, MisGrade $grade, $grade_id)
     {
-        Grade::where('grade_id', $grade_id)
+        MisGrade::where('grade_id', $grade_id)
                 ->update([
                     'grade_desc'=>$request->grade_desc,
                     'usr_update'=>$request->usr_update,
@@ -88,10 +88,10 @@ class GradeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Grade  $grade
+     * @param  \App\Models\MisGrade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Grade $grade)
+    public function destroy(MisGrade $grade)
     {
         //
     }

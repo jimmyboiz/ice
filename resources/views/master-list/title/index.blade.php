@@ -6,6 +6,10 @@
             <div class="alert alert-success">
                 {{ Session::get('message') }}
             </div>
+        @elseif(Session::has('error'))
+            <div class="alert alert-danger">
+                {{ Session::get('error') }}
+            </div>
         @endif
 
         <div class="d-sm-flex align-items-center justify-content-between mb-4">

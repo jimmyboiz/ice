@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
+use App\Models\MisCompany;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::get();
+        $companies = MisCompany::get();
 
         return view('master-list.company.index', compact('companies'));
     }
@@ -40,7 +40,7 @@ class CompanyController extends Controller
     {
         $data = $request->all();
 
-        Company::create($data);
+        MisCompany::create($data);
 
         return redirect()->back()->with('message','Company has been created successfully.');
     }
@@ -48,10 +48,10 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Company  $company
+     * @param  \App\Models\MisCompany  $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company, $company_id)
+    public function show(MisCompany $company, $company_id)
     {
         //
     }
@@ -59,10 +59,10 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Company  $company
+     * @param  \App\Models\MisCompany  $company
      * @return \Illuminate\Http\Response
      */
-    public function edit(Company $company, $company_id)
+    public function edit(MisCompany $company, $company_id)
     {
         //
     }
@@ -71,12 +71,12 @@ class CompanyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Company  $company
+     * @param  \App\Models\MisCompany  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company, $company_id)
+    public function update(Request $request, MisCompany $company, $company_id)
     {
-        Company::where('company_id', $company_id)
+        MisCompany::where('company_id', $company_id)
                 ->update([
                     'company_name'=>$request->company_name,
                     'company_tel_no'=>$request->company_tel_no,
@@ -90,10 +90,10 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Company  $company
+     * @param  \App\Models\MisCompany  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Company $company)
+    public function destroy(MisCompany $company)
     {
         //
     }

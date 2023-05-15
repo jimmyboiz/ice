@@ -6,6 +6,10 @@
             <div class="alert alert-success">
                 {{ Session::get('message') }}
             </div>
+        @elseif(Session::has('error'))
+            <div class="alert alert-danger">
+                {{ Session::get('error') }}
+            </div>
         @endif
 
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -13,7 +17,7 @@
 
             <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" type="button" data-toggle="modal"
                 data-target="#addDivisionModal">
-                <i class="fas fa-plus fa-sm text-white-50"></i> New Company
+                <i class="fas fa-plus fa-sm text-white-50"></i> New Division
             </button>
 
             @include('master-list.division.create')
@@ -37,14 +41,6 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Division Name</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </tfoot>
                                 <tbody>
                                     @foreach ($divisions as $division)
                                         <tr>

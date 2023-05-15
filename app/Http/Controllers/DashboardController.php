@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contractor;
-use App\Models\Employee;
+use App\Models\MisDivision;
+use App\Models\CdeEmployee;
+use App\Models\Item;
 use App\Models\System;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -30,12 +33,40 @@ class DashboardController extends Controller
         return view('project-management.directory');
     }
 
+    public function rmsCorpIndex()
+    {
+        return view('rms.corporate.index');
+    }
+
+    public function rmsOpIndex()
+    {
+        $divisions = MisDivision::get();
+        return view('rms.corporate.operational.index', compact('divisions'));
+    }
+
+    public function createInstruct()
+    {
+        return view('auth.create-instruction');
+    }
+
     public function index()
     {
         $contractors = DB::connection('sqlsrv2')->table('bcms_contractor')->get();
         $systems = System::get();
-        $employees = Employee::get();
+        $employees = CdeEmployee::get();
         return view('dashboard', compact('systems', 'employees', 'contractors'));
+    }
+
+    public function homepage()
+    {
+        return view('homepage');
+    }
+
+    public function notification()
+    {
+        $todays = Item::where('expiry_date','=', Carbon::today())->orderBy('expiry_date')->get();
+
+        return view('layouts.notification', compact('todays'));
     }
 
     /**

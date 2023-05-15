@@ -17,13 +17,13 @@
                             @csrf
                             <div class="form-group">
                                 <label class="label">Designation Name</label>
-                                <input type="text" class="form-control" id="designation_name" name="designation_name"
+                                <input style="text-transform: uppercase;" type="text" class="form-control" id="designation_name" name="designation_name"
                                     required>
                             </div>
                             <br>
 
                             <input type="hidden" class="form-control" id="usr_create" name="usr_create"
-                                value="{{ Auth()->user()->name }}">
+                                value="{{ Auth()->user()->email }}">
                             <input type="hidden" class="form-control" id="is_active" name="is_active" value="Y">
 
                             <div class="d-sm-flex align-items-center justify-content-between mb-4">

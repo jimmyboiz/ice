@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Designation;
+use App\Models\MisDesignation;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class DesignationController extends Controller
      */
     public function index()
     {
-        $designations = Designation::get();
+        $designations = MisDesignation::get();
 
         return view('master-list.designation.index', compact('designations'));
     }
@@ -40,9 +40,17 @@ class DesignationController extends Controller
     {
         $data = $request->all();
 
-        Designation::create($data);
+        if (MisDesignation::where('designation_name', $request->designation_name)->exists()) {
 
-        return redirect()->back()->with('message','Designation has been created successfully.');
+            return redirect()->back()->with('error', 'Designation name already existed.');
+
+        } else {
+
+            MisDesignation::create($data);
+            return redirect()->back()->with('message', 'Designation has been created successfully.');
+            
+        }
+
     }
 
     /**
@@ -51,7 +59,7 @@ class DesignationController extends Controller
      * @param  \App\Models\Designation  $designation
      * @return \Illuminate\Http\Response
      */
-    public function show(Designation $designation)
+    public function show(MisDesignation $designation)
     {
         //
     }
@@ -62,7 +70,7 @@ class DesignationController extends Controller
      * @param  \App\Models\Designation  $designation
      * @return \Illuminate\Http\Response
      */
-    public function edit(Designation $designation)
+    public function edit(MisDesignation $designation)
     {
         //
     }
@@ -71,28 +79,28 @@ class DesignationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Designation  $designation
+     * @param  \App\Models\MisDesignation  $designation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Designation $designation, $designation_id)
+    public function update(Request $request, MisDesignation $designation, $designation_id)
     {
-        Designation::where('designation_id', $designation_id)
-                ->update([
-                    'designation_name'=>$request->designation_name,
-                    'usr_update'=>$request->usr_update,
-                    'is_active'=>$request->is_active
-                ]);
-        
+        MisDesignation::where('designation_id', $designation_id)
+            ->update([
+                'designation_name' => $request->designation_name,
+                'usr_update' => $request->usr_update,
+                'is_active' => $request->is_active
+            ]);
+
         return redirect()->back()->with('message', 'Designation has been succesfully updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Designation  $designation
+     * @param  \App\Models\MisDesignation  $designation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Designation $designation)
+    public function destroy(MisDesignation $designation)
     {
         //
     }

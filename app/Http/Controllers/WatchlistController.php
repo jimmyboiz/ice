@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Content;
+use App\Models\Item;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -21,11 +23,21 @@ class Watchlistcontroller extends Controller
         // $contents = Content::where('expiry_date', '>=', Carbon::now()->addDays(7) )
         //                      ->where('expiry_date', '<=', Carbon::now()->addDays(14))
         //                      ->get();
-        $todays = Content::where('expiry_date','=', Carbon::today())->orderBy('expiry_date')->get();
-        $sevendays = Content::whereBetween('expiry_date',[Carbon::now()->addDays(0) , Carbon::now()->addDays(7)])->orderBy('expiry_date')->get();
-        $fourteendays = Content::whereBetween('expiry_date',[Carbon::now()->addDays(7) , Carbon::now()->addDays(14)])->get();
+        $projects = Project::get();
+        $todays = Item::leftjoin('projects','items.project_id','=','projects.project_id')->where('expiry_date','=', Carbon::today())->orderBy('expiry_date')->get();
+        $sevendays = Item::leftjoin('projects','items.project_id','=','projects.project_id')->whereBetween('expiry_date',[Carbon::today()->addDays(1) , Carbon::today()->addDays(7)])->orderBy('expiry_date')->get();
+        $fourteendays = Item::leftjoin('projects','items.project_id','=','projects.project_id')->whereBetween('expiry_date',[Carbon::today()->addDays(8) , Carbon::today()->addDays(14)])->orderBy('expiry_date')->get();
+        $thirtydays = Item::leftjoin('projects','items.project_id','=','projects.project_id')->whereBetween('expiry_date',[Carbon::today()->addDays(15) , Carbon::today()->addDays(30)])->orderBy('expiry_date')->get();
+        $items = Item::leftjoin('projects','items.project_id','=','projects.project_id')->get();
 
-        return view('project-management.watchlist', compact('todays','sevendays','fourteendays'));
+        return view('project-management.watchlist', compact(
+            'items',
+            'projects',
+            'todays',
+            'sevendays',
+            'fourteendays',
+            'thirtydays'
+            ));
     }
 
     /**
